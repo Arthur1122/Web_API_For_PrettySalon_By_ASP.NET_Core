@@ -9,6 +9,6 @@ namespace Pretty_Salon.Data.Entities
     {
         public int HairdresserId { get; set; }
         public string Name { get; set; }
-        public Salon MyProperty { get; set; }
+        public Salon Salon { get; set; }
     }
 }
