@@ -27,6 +27,7 @@ namespace Pretty_Salon
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<RegisterContext>();
+            services.AddScoped<IRegistrationRepository, RegistrationRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
