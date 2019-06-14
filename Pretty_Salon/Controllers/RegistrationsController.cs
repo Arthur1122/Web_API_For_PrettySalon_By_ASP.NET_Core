@@ -32,11 +32,26 @@ namespace Pretty_Salon.Controllers
                 if (registrations == null) return NotFound();
 
                 return _mapper.Map<RegistrationModel[]>(registrations);
-
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,"Failed database");
+            }
+        }
+        [HttpGet("Search")]
+        public async Task<ActionResult<RegistrationModel[]>> Search(DateTime dateTime)
+        {
+            try
+            {
+                var results = await _repository.GetRegistrationsByDateAsync(dateTime);
+                if (!results.Any()) return NotFound();
+
+                return _mapper.Map<RegistrationModel[]>(results);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
     }
