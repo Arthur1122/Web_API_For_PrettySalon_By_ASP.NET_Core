@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pretty_Salon.Migrations
 {
-    public partial class Salon_Migration : Migration
+    public partial class SalonMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,7 +60,8 @@ namespace Pretty_Salon.Migrations
                 {
                     RegistrationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DayAndTime = table.Column<DateTime>(nullable: false),
+                    Day = table.Column<DateTime>(nullable: false),
+                    TimeOfDay = table.Column<string>(nullable: true),
                     ClientId = table.Column<int>(nullable: true),
                     HairdresserId = table.Column<int>(nullable: true),
                     SalonId = table.Column<int>(nullable: true)
@@ -105,8 +106,8 @@ namespace Pretty_Salon.Migrations
 
             migrationBuilder.InsertData(
                 table: "Registrations",
-                columns: new[] { "RegistrationId", "ClientId", "DayAndTime", "HairdresserId", "SalonId" },
-                values: new object[] { 1, 1, new DateTime(2019, 6, 12, 19, 29, 31, 432, DateTimeKind.Local).AddTicks(1643), 1, 1 });
+                columns: new[] { "RegistrationId", "ClientId", "Day", "HairdresserId", "SalonId", "TimeOfDay" },
+                values: new object[] { 1, 1, new DateTime(2019, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, "03:00 PM" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hairdressers_SalonId",

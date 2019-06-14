@@ -88,7 +88,7 @@ namespace Pretty_Salon.Data
                 .Include(n => n.Hairdresser)
                 .Include(k => k.Salon);
 
-            query = query.OrderByDescending(c => c.DayAndTime);
+            query = query.OrderByDescending(c => c.Day);
 
             return await query.ToArrayAsync();
         }
@@ -102,7 +102,7 @@ namespace Pretty_Salon.Data
                 .Include(n => n.Hairdresser)
                 .Include(k => k.Salon);
 
-            query = query.Where(c => c.DayAndTime == dateTime).OrderByDescending(m => m.DayAndTime);
+            query = query.Where(c => c.Day == dateTime).OrderByDescending(m => m.Day);
 
             return await query.ToArrayAsync();
         }
@@ -114,7 +114,6 @@ namespace Pretty_Salon.Data
 
             return await query.ToArrayAsync();
         }
-
         public async Task<Salon> GetSalonByNameAsync(string name)
         {
             _logger.LogInformation($"Getting a salon for {name}");

@@ -49,7 +49,8 @@ namespace Pretty_Salon.Data
                 .HasData(new
                 {
                     RegistrationId = 1,
-                    DayAndTime = DateTime.Now,
+                    Day = new  DateTime(2019,06,12),
+                    TimeOfDay = "03:00 PM",
                     ClientId = 1,
                     HairdresserId = 1,
                     SalonId = 1

@@ -72,11 +72,13 @@ namespace Pretty_Salon.Migrations
 
                     b.Property<int?>("ClientId");
 
-                    b.Property<DateTime>("DayAndTime");
+                    b.Property<DateTime>("Day");
 
                     b.Property<int?>("HairdresserId");
 
                     b.Property<int?>("SalonId");
+
+                    b.Property<string>("TimeOfDay");
 
                     b.HasKey("RegistrationId");
 
@@ -93,9 +95,10 @@ namespace Pretty_Salon.Migrations
                         {
                             RegistrationId = 1,
                             ClientId = 1,
-                            DayAndTime = new DateTime(2019, 6, 12, 19, 29, 31, 432, DateTimeKind.Local).AddTicks(1643),
+                            Day = new DateTime(2019, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HairdresserId = 1,
-                            SalonId = 1
+                            SalonId = 1,
+                            TimeOfDay = "03:00 PM"
                         });
                 });
 
