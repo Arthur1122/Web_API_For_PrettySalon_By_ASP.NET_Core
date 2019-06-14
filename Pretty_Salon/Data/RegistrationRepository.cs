@@ -106,6 +106,20 @@ namespace Pretty_Salon.Data
 
             return await query.ToArrayAsync();
         }
+        public Task<Registration> GetRegistrationByDate_TimeAsync(DateTime dateTime, string time)
+        {
+            _logger.LogInformation($"Get a Registration by {dateTime} and {time}");
+
+            IQueryable<Registration> query = _context.Registrations
+                .Include(c => c.Client)
+                .Include(n => n.Hairdresser)
+                .Include(k => k.Salon);
+
+            query = query.Where(c => c.Day == dateTime);
+            query = query.Where(c => c.TimeOfDay == time);
+
+            return query.FirstOrDefaultAsync();
+        }
         public async Task<Salon[]> GetAllSalonsAsync()
         {
             _logger.LogInformation($"Getting all Salons");
@@ -124,6 +138,7 @@ namespace Pretty_Salon.Data
 
             return await query.FirstOrDefaultAsync();
         }
+
 
     }
 }

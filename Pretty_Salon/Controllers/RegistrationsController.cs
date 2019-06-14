@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Pretty_Salon.Data;
 using Pretty_Salon.Models;
 
@@ -16,11 +17,13 @@ namespace Pretty_Salon.Controllers
     {
         private readonly IRegistrationRepository _repository;
         private readonly IMapper _mapper;
+        private readonly LinkGenerator _linkGenerator;
 
-        public RegistrationsController(IRegistrationRepository repository,IMapper mapper)
+        public RegistrationsController(IRegistrationRepository repository,IMapper mapper,LinkGenerator linkGenerator)
         {
             this._repository = repository;
             this._mapper = mapper;
+            this._linkGenerator = linkGenerator;
         }
 
         [HttpGet]
@@ -54,5 +57,22 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
+
+        [HttpGet("Single_Search")]
+        public async Task<ActionResult<RegistrationModel>> Single_Search(DateTime theDate, string time)
+        {
+            try
+            {
+                var result = await _repository.GetRegistrationByDate_TimeAsync(theDate, time);
+                if (result == null) return NotFound();
+
+                return _mapper.Map<RegistrationModel>(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
+
     }
 }

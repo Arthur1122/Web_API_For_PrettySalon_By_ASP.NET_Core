@@ -12,6 +12,5 @@ namespace Pretty_Salon.Models
         public string ClientName { get; set; }
         public string SalonName { get; set; }
         public string HairdresserName { get; set; }
-
     }
 }

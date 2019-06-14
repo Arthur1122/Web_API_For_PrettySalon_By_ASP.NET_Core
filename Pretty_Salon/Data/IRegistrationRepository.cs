@@ -17,6 +17,8 @@ namespace Pretty_Salon.Data
         Task<Registration[]> GetAllRegistrationsAsync();
         Task<Registration[]> GetRegistrationsByDateAsync(DateTime dateTime);
 
+        Task<Registration> GetRegistrationByDate_TimeAsync(DateTime dateTime, string time);
+
         //Clients
         Task<Client[]> GetAllClientsAsync();
         Task<Client> GetClientByNameAsync(string name);
