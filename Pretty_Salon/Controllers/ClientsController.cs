@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pretty_Salon.Data;
 using Pretty_Salon.Data.Entities;
@@ -15,9 +16,30 @@ namespace Pretty_Salon.Controllers
     public class ClientsController : ControllerBase
     {
         private readonly IClientsRespository _clientsRespository;
-        public ClientsController(IClientsRespository clientsRespository)
+        private readonly IMapper _mapper;
+
+        public ClientsController(IClientsRespository clientsRespository,IMapper mapper)
         {
-            _clientsRespository = clientsRespository;
+            this._clientsRespository = clientsRespository;
+            this._mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ClientModel[]>> Get()
+        {
+            try
+            {
+                var clients = await _clientsRespository.GetAllClients();
+                if (clients == null) return BadRequest();
+
+                return Ok( _mapper.Map<ClientModel[]>(clients));
+
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
         }
 
         [HttpGet("{id}")]

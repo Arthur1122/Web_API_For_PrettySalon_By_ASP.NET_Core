@@ -9,6 +9,7 @@ namespace Pretty_Salon.Data
 {
     public interface IClientsRespository
     {
+        Task <Client[]> GetAllClients();
         Client GetById(int id);
         Client Create(ClientModel model);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pretty_Salon.Data.Entities;
 using Pretty_Salon.Models;
@@ -28,6 +29,14 @@ namespace Pretty_Salon.Data
             // ay stegh save changesic heto cliente kstana ira Idin, vorov hetev SaveChangese gruma baza u stanuma clienti IDn
 
             return client;
+        }
+
+        public async Task<Client[]> GetAllClients()
+        {
+            IQueryable<Client> query = _context.Clients;
+
+            return await query.ToArrayAsync();
+
         }
 
         public Client GetById(int id)
