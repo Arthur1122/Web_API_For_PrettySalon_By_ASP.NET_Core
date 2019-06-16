@@ -11,5 +11,7 @@ namespace Pretty_Salon.Data
     {
         Client GetById(int id);
         Client Create(ClientModel model);
+
+        bool SaveChanges();
     }
 }

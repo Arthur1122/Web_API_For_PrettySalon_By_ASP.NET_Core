@@ -34,5 +34,10 @@ namespace Pretty_Salon.Data
         {
             return _context.Find<Client>(id);
         }
+
+        public bool SaveChanges()
+        {
+            return (_context.SaveChanges() > 0);
+        }
     }
 }

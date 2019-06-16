@@ -50,5 +50,26 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
+
+        [HttpPut]
+        public ActionResult Update(int id, ClientModel model)
+        {
+            try
+            {
+                var oldClient = _clientsRespository.GetById(id);
+                if (oldClient == null) return NotFound();
+
+                oldClient.Name = model.ClientName;
+
+                _clientsRespository.SaveChanges();
+                return Ok(oldClient);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
+
     }
 }
