@@ -13,10 +13,10 @@ namespace Pretty_Salon.Data
         public RegistrationProfile()
         {
             this.CreateMap<Registration, RegistrationModel>()
-                .ForMember(c => c.TimeOfDay, o => o.MapFrom(n => n.TimeOfDay))
                 .ReverseMap();
-            this.CreateMap<RegistrationModel, Registration>()
-                .ReverseMap();
+
+            this.CreateMap<RegistrationModel, Registration>();
+
         }
     }
 }

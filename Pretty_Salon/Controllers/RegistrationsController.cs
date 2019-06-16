@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Pretty_Salon.Data;
+using Pretty_Salon.Data.Entities;
 using Pretty_Salon.Models;
 
 namespace Pretty_Salon.Controllers
@@ -53,7 +54,6 @@ namespace Pretty_Salon.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
@@ -73,6 +73,37 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
+        public async Task<ActionResult<RegistrationModel>> Post(RegistrationModel model)
+        {
+            try
+            {
+                var exist = await _repository.GetRegistrationByDate_TimeAsync(model.Day, model.TimeOfDay);
+                if (exist != null) return BadRequest("The registration in use");
 
+                var url = _linkGenerator.GetPathByAction("Get",
+                    "Registrations",
+                    new { Day = model.Day, TimeOfDay = model.TimeOfDay });
+
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    return BadRequest("Could not use current Day and Time");
+                }
+
+                Registration registration = _mapper.Map<Registration>(model);
+                _repository.Add(registration);
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Created(url, _mapper.Map<RegistrationModel>(registration));
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
     }
 }
