@@ -12,7 +12,7 @@ namespace Pretty_Salon.Data
         Task <Client[]> GetAllClients();
         Client GetById(int id);
         Client Create(ClientModel model);
-
+        void Delete<T>(T entity) where T : class; 
         bool SaveChanges();
     }
 }

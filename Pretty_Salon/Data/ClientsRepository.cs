@@ -31,6 +31,11 @@ namespace Pretty_Salon.Data
             return client;
         }
 
+        public void Delete<T>(T entity) where T : class
+        {
+            _context.Remove(entity);
+        }
+
         public async Task<Client[]> GetAllClients()
         {
             IQueryable<Client> query = _context.Clients;

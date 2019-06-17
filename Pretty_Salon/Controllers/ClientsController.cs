@@ -43,15 +43,16 @@ namespace Pretty_Salon.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetById([FromRoute] int id)
+        public ActionResult<ClientModel> GetById([FromRoute]int id)
         {
             try
             {
                 var client = _clientsRespository.GetById(id);
                 if (client == null) return NotFound();
 
+
                 //obshi tenc anele sxala, arji veshni menak modelner veradarcnel voch te entityner
-                return Ok(client);
+                return Ok(_mapper.Map<ClientModel>(client));
             }
             catch (Exception ex)
             {
@@ -91,6 +92,28 @@ namespace Pretty_Salon.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
+        }
+
+        [HttpDelete("{id}")]
+        public  ActionResult Delete([FromRoute] int id)
+        {
+            try
+            {
+                var result =  _clientsRespository.GetById(id);
+                if (result == null) return NotFound("Could not found that id");
+
+                _clientsRespository.Delete(result);
+                if ( _clientsRespository.SaveChanges())
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception ex )
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+
+            return BadRequest();
         }
 
     }
