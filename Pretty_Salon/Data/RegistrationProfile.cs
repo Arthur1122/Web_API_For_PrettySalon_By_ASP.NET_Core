@@ -23,6 +23,14 @@ namespace Pretty_Salon.Data
 
             this.CreateMap<ClientModel, Client>();
 
+            this.CreateMap<Salon, SalonModel>()
+                .ForMember(c => c.SalonId, o => o.MapFrom(m => m.SalonId))
+                .ForMember(c => c.SalonName, o => o.MapFrom(m => m.Name))
+                .ReverseMap();
+
+            this.CreateMap<SalonModel, Salon>();
+                
+
         }
     }
 }
