@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pretty_Salon.Data.Entities;
 using Pretty_Salon.Models;
@@ -40,16 +41,23 @@ namespace Pretty_Salon.Data
             return query.ToArray();
         }
 
-        public Salon GetSalonById(int id)
+        public async Task<Salon> GetSalonByIdAsync(int id)
         {
             _logger.LogInformation("Get salon by Id");
-            return _context.Find<Salon>(id);
+
+            IQueryable<Salon> query = _context.Salons;
+            query = query.Where(c => c.SalonId == id);
+
+            return await query.FirstOrDefaultAsync();
         }
 
-        public Salon GetSalonByName(string name)
+        public async Task <Salon> GetSalonByNameAsync(string name)
         {
             _logger.LogInformation("Get salon by name");
-            return _context.Find<Salon>(name);
+            IQueryable<Salon> query =  _context.Salons;
+
+            query = query.Where(c => c.Name == name);
+            return  await query.SingleOrDefaultAsync();
         }
 
         public bool SaveChangesAsync()

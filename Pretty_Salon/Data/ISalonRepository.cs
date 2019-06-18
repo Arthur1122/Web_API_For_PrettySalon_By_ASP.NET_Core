@@ -13,8 +13,8 @@ namespace Pretty_Salon.Data
         bool SaveChangesAsync();
 
         Salon[] GetAllSalons();
-        Salon GetSalonById(int id);
-        Salon GetSalonByName(string name);
+        Task<Salon> GetSalonByIdAsync(int id);
+        Task<Salon> GetSalonByNameAsync(string name);
         Salon Create(SalonModel model);
     }
 }

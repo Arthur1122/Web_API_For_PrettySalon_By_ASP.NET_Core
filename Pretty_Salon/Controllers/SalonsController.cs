@@ -39,5 +39,21 @@ namespace Pretty_Salon.Controllers
             }
         }
 
+        [HttpGet("{name}")]
+        public async Task<ActionResult<SalonModel>> Get([FromRoute]string name)
+        {
+            try
+            {
+                var salon = await _repository.GetSalonByNameAsync(name);
+                if (salon == null) return NotFound();
+
+                return _mapper.Map<SalonModel>(salon);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
+
     }
 }
