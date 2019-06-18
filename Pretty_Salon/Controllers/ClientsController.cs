@@ -50,8 +50,6 @@ namespace Pretty_Salon.Controllers
                 var client = _clientsRespository.GetById(id);
                 if (client == null) return NotFound();
 
-
-                //obshi tenc anele sxala, arji veshni menak modelner veradarcnel voch te entityner
                 return Ok(_mapper.Map<ClientModel>(client));
             }
             catch (Exception ex)
