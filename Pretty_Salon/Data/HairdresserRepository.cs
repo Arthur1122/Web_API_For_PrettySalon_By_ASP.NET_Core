@@ -48,7 +48,11 @@ namespace Pretty_Salon.Data
 
         public Hairdresser GetHairdresserById(int id)
         {
-            return _context.Find<Hairdresser>(id);
+            IQueryable<Hairdresser> query = _context.Hairdressers
+                .Include(c => c.Salon);
+
+            query = query.Where(c => c.HairdresserId == id);
+            return query.FirstOrDefault();
         }
 
         public bool SaveChanges()

@@ -38,5 +38,22 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<HairdresserGetModel> GetById([FromRoute] int id)
+        {
+            try
+            {
+                var result = _repository.GetHairdresserById(id);
+                if (result == null) return NotFound("Could not found the hairdresser");
+
+                return _mapper.Map<HairdresserGetModel>(result);
+            }
+            catch (Exception ez)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
     }
 }
