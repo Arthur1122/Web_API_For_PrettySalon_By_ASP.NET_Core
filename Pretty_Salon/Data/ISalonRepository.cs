@@ -14,7 +14,6 @@ namespace Pretty_Salon.Data
 
         Salon[] GetAllSalons();
         Task<Salon> GetSalonByIdAsync(int id);
-        Task<Salon> GetSalonByNameAsync(string name);
         Salon Create(SalonModel model);
     }
 }

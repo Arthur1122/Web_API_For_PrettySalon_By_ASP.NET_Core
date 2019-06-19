@@ -29,8 +29,6 @@ namespace Pretty_Salon.Data
                 .ReverseMap();
 
             this.CreateMap<SalonModel, Salon>();
-                
-
         }
     }
 }

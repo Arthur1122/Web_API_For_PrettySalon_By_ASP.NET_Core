@@ -50,7 +50,7 @@ namespace Pretty_Salon.Data
             _logger.LogInformation($"Getting a Client for {name}");
 
             IQueryable<Client> query = _context.Clients;
-
+            
             query = query.Where(c => c.Name == name);
 
             return await query.FirstOrDefaultAsync();

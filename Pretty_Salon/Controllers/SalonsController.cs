@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Pretty_Salon.Data;
+using Pretty_Salon.Data.Entities;
 using Pretty_Salon.Models;
 
 namespace Pretty_Salon.Controllers
@@ -15,12 +17,14 @@ namespace Pretty_Salon.Controllers
     public class SalonsController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly LinkGenerator _linkGenerator;
         private readonly ISalonRepository _repository;
 
-        public SalonsController(ISalonRepository repository, IMapper mapper)
+        public SalonsController(ISalonRepository repository, IMapper mapper, LinkGenerator linkGenerator)
         {
             this._repository = repository;
             this._mapper = mapper;
+            this._linkGenerator = linkGenerator;
         }
 
         [HttpGet]
@@ -36,22 +40,6 @@ namespace Pretty_Salon.Controllers
             catch (Exception  ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,"Database Failure");
-            }
-        }
-
-        [HttpGet("{name}")]
-        public async Task<ActionResult<SalonModel>> Get([FromRoute]string name)
-        {
-            try
-            {
-                var salon = await _repository.GetSalonByNameAsync(name);
-                if (salon == null) return NotFound();
-
-                return _mapper.Map<SalonModel>(salon);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
         [HttpGet("{id}")]
@@ -70,5 +58,36 @@ namespace Pretty_Salon.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult<SalonModel> Post(SalonModel model)
+        {
+            try
+            {
+
+                var uri = _linkGenerator.GetPathByAction(HttpContext,
+                    "Get",
+                    values: new { name = model.SalonName });
+
+                if (string.IsNullOrWhiteSpace(uri))
+                {
+                    return BadRequest("Could not use current name");
+                }
+
+                var salon = _repository.Create(model);
+                if (_repository.SaveChangesAsync())
+                {
+                    return Created(uri, _mapper.Map<SalonModel>(salon));
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
     }
 }

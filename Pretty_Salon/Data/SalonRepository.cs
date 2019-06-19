@@ -50,16 +50,6 @@ namespace Pretty_Salon.Data
 
             return await query.FirstOrDefaultAsync();
         }
-
-        public async Task <Salon> GetSalonByNameAsync(string name)
-        {
-            _logger.LogInformation("Get salon by name");
-            IQueryable<Salon> query =  _context.Salons;
-
-            query = query.Where(c => c.Name == name);
-            return  await query.SingleOrDefaultAsync();
-        }
-
         public bool SaveChangesAsync()
         {
             return _context.SaveChanges() > 0;
