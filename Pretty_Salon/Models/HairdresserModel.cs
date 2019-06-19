@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Pretty_Salon.Models
 {
-    public class HairdresserModel
+    public class HairdresserGetModel
     {
         public int HairdresserId { get; set; }
         public string HairdresserName { get; set; }
-        public int SalonId { get; set; }
+        public string SalonName { get; set; }
     }
 }

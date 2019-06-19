@@ -31,6 +31,7 @@ namespace Pretty_Salon
             services.AddScoped<IRegistrationRepository, RegistrationRepository>();
             services.AddScoped<IClientsRespository, ClientsRepository>();
             services.AddScoped<ISalonRepository, SalonRepository>();
+            services.AddScoped<IHairdresserRepository, HairdresserRepository>();
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

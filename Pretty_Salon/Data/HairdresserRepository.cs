@@ -20,7 +20,7 @@ namespace Pretty_Salon.Data
             _logger = logger;
         }
 
-        public Hairdresser Create(HairdresserModel model)
+        public Hairdresser Create(HairdresserGetModel model)
         {
             _logger.LogInformation("Creating a Hairdresser");
             var hairdresser = new Hairdresser { Name = model.HairdresserName };
@@ -39,7 +39,8 @@ namespace Pretty_Salon.Data
         public async Task<Hairdresser[]> GetAllHairdressers()
         {
             _logger.LogInformation("Getting all hairdressers");
-            IQueryable<Hairdresser> query = _context.Hairdressers;
+            IQueryable<Hairdresser> query = _context.Hairdressers
+                .Include(c => c.Salon);
 
             query = query.OrderBy(h => h.Name);
             return await query.ToArrayAsync();
