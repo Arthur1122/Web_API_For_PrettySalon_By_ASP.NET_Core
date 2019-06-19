@@ -113,6 +113,5 @@ namespace Pretty_Salon.Controllers
 
             return BadRequest();
         }
-
     }
 }
