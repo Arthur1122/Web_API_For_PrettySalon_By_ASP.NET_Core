@@ -89,5 +89,24 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
+
+        [HttpPut]
+        public async Task<ActionResult<SalonModel>> Update(int id,SalonModel model)
+        {
+            try
+            {
+                var oldSalon = await _repository.GetSalonByIdAsync(id);
+                var res = _mapper.Map(model,oldSalon);
+                _repository.SaveChangesAsync();
+                
+                return _mapper.Map<SalonModel>(res);
+                
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
     }
 }
