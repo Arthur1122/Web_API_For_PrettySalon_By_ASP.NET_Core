@@ -124,5 +124,30 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                var dresser = _repository.GetHairdresserById(id);
+                if (dresser == null) return NotFound();
+
+                _repository.Delete(dresser);
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("failde to Delete Hairdresser");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
     }
 }
