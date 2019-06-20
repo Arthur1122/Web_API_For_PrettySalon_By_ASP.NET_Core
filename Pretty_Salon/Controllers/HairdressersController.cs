@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pretty_Salon.Data;
+using Pretty_Salon.Data.Entities;
 using Pretty_Salon.Models;
 
 namespace Pretty_Salon.Controllers
@@ -15,23 +16,25 @@ namespace Pretty_Salon.Controllers
     public class HairdressersController : ControllerBase
     {
         private readonly IHairdresserRepository _repository;
+        private readonly ISalonRepository _salonRepository;
         private readonly IMapper _mapper;
 
-        public HairdressersController(IHairdresserRepository repository,IMapper mapper)
+        public HairdressersController(IHairdresserRepository repository,ISalonRepository salonRepository,IMapper mapper)
         {
             this._repository = repository;
+            this._salonRepository = salonRepository;
             this._mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<HairdresserGetModel[]>> Get()
+        public async Task<ActionResult<HairdresserModel[]>> Get()
         {
             try
             {
                 var results = await _repository.GetAllHairdressers();
                 if (results == null) return NotFound();
 
-                return _mapper.Map<HairdresserGetModel[]>(results);
+                return _mapper.Map<HairdresserModel[]>(results);
             }
             catch (Exception ex)
             {
@@ -40,16 +43,46 @@ namespace Pretty_Salon.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<HairdresserGetModel> GetById([FromRoute] int id)
+        public ActionResult<HairdresserModel> GetById([FromRoute] int id)
         {
             try
             {
                 var result = _repository.GetHairdresserById(id);
                 if (result == null) return NotFound("Could not found the hairdresser");
 
-                return _mapper.Map<HairdresserGetModel>(result);
+                return _mapper.Map<HairdresserModel>(result);
             }
             catch (Exception ez)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
+
+        [HttpPost]
+        public async Task <ActionResult<HairdresserModel>> Post(HairdresserModel model)
+        {
+            try
+            {
+                var hairdresser = _mapper.Map<Hairdresser>(model);
+
+                if (model.Salon == null) return BadRequest();
+                var salon = await  _salonRepository.GetSalonByIdAsync(model.Salon.SalonId);
+                if (salon == null) return NotFound();
+
+                hairdresser.Salon = salon;
+
+                _repository.Add(hairdresser);
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");

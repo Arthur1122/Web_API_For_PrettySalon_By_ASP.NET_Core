@@ -11,8 +11,8 @@ namespace Pretty_Salon.Data
     {
         Task<Hairdresser[]> GetAllHairdressers();
         Hairdresser GetHairdresserById(int id);
-        Hairdresser Create(HairdresserGetModel model);
+        void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
-        bool SaveChanges();
+        Task<bool> SaveChangesAsync();
     }
 }

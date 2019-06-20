@@ -20,20 +20,16 @@ namespace Pretty_Salon.Data
             _logger = logger;
         }
 
-        public Hairdresser Create(HairdresserGetModel model)
+        public void Add<T>(T entity) where T : class
         {
-            _logger.LogInformation("Creating a Hairdresser");
-            var hairdresser = new Hairdresser { Name = model.HairdresserName };
-            _context.Add(hairdresser);
-            _context.SaveChanges();
-            return hairdresser;
+            _logger.LogInformation($"Adding an object of type {entity.GetType()} to the context.");
+            _context.Add(entity);
         }
 
         public void Delete<T>(T entity) where T : class
         {
-            _logger.LogInformation("Deleting the entity");
+            _logger.LogInformation($"Removing an object of type {entity.GetType()} to the context.");
             _context.Remove(entity);
-            _context.SaveChanges();
         }
 
         public async Task<Hairdresser[]> GetAllHairdressers()
@@ -55,9 +51,12 @@ namespace Pretty_Salon.Data
             return query.FirstOrDefault();
         }
 
-        public bool SaveChanges()
+        public async Task<bool> SaveChangesAsync()
         {
-            return _context.SaveChanges() > 0;
+            _logger.LogInformation($"Attempitng to save the changes in the context");
+
+            // Only return success if at least one row was changed
+            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }
