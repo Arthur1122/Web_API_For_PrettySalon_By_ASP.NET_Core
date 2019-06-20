@@ -88,5 +88,41 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
+
+        [HttpPut]
+        public async Task<ActionResult<HairdresserModel>> Update(int id, HairdresserModel model)
+        {
+            try
+            {
+                var dresser = _repository.GetHairdresserById(id);
+                if (dresser == null) return NotFound();
+
+                _mapper.Map(model, dresser);
+
+                if (model.Salon != null)
+                {
+                    var salon = await _salonRepository.GetSalonByIdAsync(model.Salon.SalonId);
+                    if(salon != null)
+                    {
+                        dresser.Salon = salon;
+                    }
+                    
+                }
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return _mapper.Map<HairdresserModel>(dresser);
+                }
+                else
+                {
+                    return _mapper.Map<HairdresserModel>(dresser);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
     }
 }

@@ -36,8 +36,8 @@ namespace Pretty_Salon.Data
             this.CreateMap<Hairdresser, HairdresserModel>()
                 .ForMember(c => c.HairdresserId, o => o.MapFrom(m => m.HairdresserId))
                 .ForMember(c => c.HairdresserName, o => o.MapFrom(m => m.Name))
-
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(c=>c.Salon,opt=>opt.Ignore());
 
             this.CreateMap<HairdresserModel, Hairdresser>()
                 .ForMember(c => c.Name, o => o.MapFrom(n => n.HairdresserName))
