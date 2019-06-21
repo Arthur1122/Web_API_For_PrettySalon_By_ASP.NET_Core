@@ -24,7 +24,7 @@ namespace Pretty_Salon.Controllers
         private readonly LinkGenerator _linkGenerator;
 
         public RegistrationsController(IRegistrationRepository repository, IClientsRespository clientsRespository,
-                                       ISalonRepository salonRepository,IHairdresserRepository hairdresserRepository, 
+                                       ISalonRepository salonRepository, IHairdresserRepository hairdresserRepository,
                                        IMapper mapper, LinkGenerator linkGenerator)
         {
             this._repository = repository;
@@ -36,7 +36,7 @@ namespace Pretty_Salon.Controllers
         }
 
         [HttpGet]
-        public  async Task<ActionResult<RegistrationModel[]>> Get()
+        public async Task<ActionResult<RegistrationModel[]>> Get()
         {
             try
             {
@@ -47,9 +47,25 @@ namespace Pretty_Salon.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,"Failed database");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<RegistrationModel> GetById([FromRoute]int id)
+        {
+            try
+            {
+                var register = _repository.GetRegistrationById(id);
+                if (register == null) return NotFound();
+                return  _mapper.Map<RegistrationModel>(register);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
+
         [HttpGet("{theDate}")]
         public async Task<ActionResult<RegistrationModel[]>> Search(DateTime theDate)
         {
@@ -129,6 +145,49 @@ namespace Pretty_Salon.Controllers
                 else
                 {
                     return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
+            }
+        }
+        [HttpPut]
+        public async Task<ActionResult<RegistrationModel>> Update(int id, RegistrationModel model)
+        {
+            try
+            {
+                var register = _repository.GetRegistrationById(id);
+                if (register == null) return NotFound();
+
+                _mapper.Map(model, register);
+
+                if (model.Client != null)
+                {
+                    var client = _clientsRespository.GetById(model.Client.ClientId);
+                    if (client == null) return NotFound();
+
+                    register.Client = client;
+                }
+                if (model.Hairdresser != null)
+                {
+                    var dresser = _hairdresserRepository.GetHairdresserById(model.Hairdresser.HairdresserId);
+                    if (dresser == null) return NotFound();
+                    register.Hairdresser = dresser;
+                }
+                if (model.Salon != null)
+                {
+                    var salon = await _salonRepository.GetSalonByIdAsync(model.Salon.SalonId);
+                    if (salon == null) return NotFound();
+                    register.Salon = salon;
+                }
+                if (await _repository.SaveChangesAsync())
+                {
+                    return _mapper.Map<RegistrationModel>(register);
+                }
+                else
+                {
+                    return _mapper.Map<RegistrationModel>(register);
                 }
             }
             catch (Exception ex)

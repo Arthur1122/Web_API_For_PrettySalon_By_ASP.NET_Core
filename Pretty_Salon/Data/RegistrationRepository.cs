@@ -139,6 +139,9 @@ namespace Pretty_Salon.Data
             return await query.FirstOrDefaultAsync();
         }
 
-
+        public Registration GetRegistrationById(int id)
+        {
+            return _context.Find<Registration>(id);
+        }
     }
 }

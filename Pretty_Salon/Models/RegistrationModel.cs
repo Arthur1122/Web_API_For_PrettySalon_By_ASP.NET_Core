@@ -7,6 +7,7 @@ namespace Pretty_Salon.Models
 {
     public class RegistrationModel
     {
+        public int RegistrrationId { set; get; }
         public DateTime Day { get; set; } = DateTime.MinValue;
         public string TimeOfDay { get; set; }
         public ClientModel Client { get; set; }

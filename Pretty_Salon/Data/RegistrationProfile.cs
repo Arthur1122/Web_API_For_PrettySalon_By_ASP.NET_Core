@@ -13,6 +13,7 @@ namespace Pretty_Salon.Data
         public RegistrationProfile()
         {
             this.CreateMap<Registration, RegistrationModel>()
+                .ForMember(c=>c.RegistrrationId,o=>o.MapFrom(m=>m.RegistrationId))
                 .ReverseMap();
             this.CreateMap<RegistrationModel, Registration>();
 
