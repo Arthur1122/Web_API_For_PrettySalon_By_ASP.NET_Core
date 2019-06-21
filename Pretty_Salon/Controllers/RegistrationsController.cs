@@ -42,12 +42,12 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,"Failed database");
             }
         }
-        [HttpGet("Search")]
-        public async Task<ActionResult<RegistrationModel[]>> Search(DateTime dateTime)
+        [HttpGet("{theDate}")]
+        public async Task<ActionResult<RegistrationModel[]>> Search(DateTime theDate)
         {
             try
             {
-                var results = await _repository.GetRegistrationsByDateAsync(dateTime);
+                var results = await _repository.GetRegistrationsByDateAsync(theDate);
                 if (!results.Any()) return NotFound();
 
                 return _mapper.Map<RegistrationModel[]>(results);
@@ -58,7 +58,7 @@ namespace Pretty_Salon.Controllers
             }
         }
 
-        [HttpGet("Single_Search")]
+        [HttpGet("{theDate}/{time}")]
         public async Task<ActionResult<RegistrationModel>> Single_Search(DateTime theDate, string time)
         {
             try
