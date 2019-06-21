@@ -17,12 +17,20 @@ namespace Pretty_Salon.Controllers
     public class RegistrationsController : ControllerBase
     {
         private readonly IRegistrationRepository _repository;
+        private readonly IClientsRespository _clientsRespository;
+        private readonly ISalonRepository _salonRepository;
+        private readonly IHairdresserRepository _hairdresserRepository;
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
 
-        public RegistrationsController(IRegistrationRepository repository,IMapper mapper,LinkGenerator linkGenerator)
+        public RegistrationsController(IRegistrationRepository repository, IClientsRespository clientsRespository,
+                                       ISalonRepository salonRepository,IHairdresserRepository hairdresserRepository, 
+                                       IMapper mapper, LinkGenerator linkGenerator)
         {
             this._repository = repository;
+            this._clientsRespository = clientsRespository;
+            this._salonRepository = salonRepository;
+            this._hairdresserRepository = hairdresserRepository;
             this._mapper = mapper;
             this._linkGenerator = linkGenerator;
         }
@@ -73,6 +81,8 @@ namespace Pretty_Salon.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
+
+        [HttpPost]
         public async Task<ActionResult<RegistrationModel>> Post(RegistrationModel model)
         {
             try
@@ -90,7 +100,28 @@ namespace Pretty_Salon.Controllers
                 }
 
                 Registration registration = _mapper.Map<Registration>(model);
+                if (model.Client != null)
+                {
+                    var client = _clientsRespository.GetById(model.Client.ClientId);
+                    if (client == null) return NotFound();
+
+                    registration.Client = client;
+                }
+                if (model.Hairdresser != null)
+                {
+                    var dresser = _hairdresserRepository.GetHairdresserById(model.Hairdresser.HairdresserId);
+                    if (dresser == null) return NotFound();
+                    registration.Hairdresser = dresser;
+                }
+                if (model.Salon != null)
+                {
+                    var salon = await _salonRepository.GetSalonByIdAsync(model.Salon.SalonId);
+                    if (salon == null) return NotFound();
+                    registration.Salon = salon;
+                }
+
                 _repository.Add(registration);
+
                 if (await _repository.SaveChangesAsync())
                 {
                     return Created(url, _mapper.Map<RegistrationModel>(registration));
