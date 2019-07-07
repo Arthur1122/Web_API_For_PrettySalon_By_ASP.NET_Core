@@ -22,7 +22,13 @@ namespace Pretty_Salon.Data
 
         public Client Create(ClientModel model)
         {
-            var client = new Client { Name = model.ClientName };
+            var client = new Client
+            {
+                FirstName = model.ClientFirstName,
+                LastName =model.ClientLastName,
+                Email = model.ClientEmail,
+                PhoneNumber =model.ClientPhoneNumber
+            };
 
             _context.Add(client);
             _context.SaveChanges();

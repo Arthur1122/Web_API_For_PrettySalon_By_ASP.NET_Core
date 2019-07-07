@@ -9,5 +9,7 @@ namespace Pretty_Salon.Models
     {
         public int SalonId { get; set; }
         public string SalonName { get; set; }
+        public string SalonAddress { get; set; }
+        public int SalonPhoneNumber { get; set; }
     }
 }

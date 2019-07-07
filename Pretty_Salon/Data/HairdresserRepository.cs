@@ -38,7 +38,7 @@ namespace Pretty_Salon.Data
             IQueryable<Hairdresser> query = _context.Hairdressers
                 .Include(c => c.Salon);
 
-            query = query.OrderBy(h => h.Name);
+            query = query.OrderBy(h => h.FirstName);
             return await query.ToArrayAsync();
         }
 

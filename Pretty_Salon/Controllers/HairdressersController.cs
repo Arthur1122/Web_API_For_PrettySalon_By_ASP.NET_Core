@@ -42,7 +42,7 @@ namespace Pretty_Salon.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet ("{id}")]
         public ActionResult<HairdresserModel> GetById([FromRoute] int id)
         {
             try

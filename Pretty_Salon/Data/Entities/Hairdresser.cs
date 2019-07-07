@@ -8,7 +8,10 @@ namespace Pretty_Salon.Data.Entities
     public class Hairdresser
     {
         public int HairdresserId { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string  LastName { get; set; }
+        public int PhoneNumber { get; set; }
+        public string Category { get; set; }
         public Salon Salon { get; set; }
     }
 }

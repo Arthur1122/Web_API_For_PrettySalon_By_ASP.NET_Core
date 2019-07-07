@@ -80,7 +80,7 @@ namespace Pretty_Salon.Controllers
                 var oldClient = _clientsRespository.GetById(id);
                 if (oldClient == null) return NotFound();
 
-                oldClient.Name = model.ClientName;
+                _mapper.Map(model, oldClient);
 
                 _clientsRespository.SaveChanges();
                 return Ok(oldClient);

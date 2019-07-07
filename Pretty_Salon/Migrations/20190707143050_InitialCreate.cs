@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pretty_Salon.Migrations
 {
-    public partial class SalonMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,10 @@ namespace Pretty_Salon.Migrations
                 {
                     ClientId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,7 +30,9 @@ namespace Pretty_Salon.Migrations
                 {
                     SalonId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,7 +45,10 @@ namespace Pretty_Salon.Migrations
                 {
                     HairdresserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<int>(nullable: false),
+                    Category = table.Column<string>(nullable: true),
                     SalonId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -91,18 +99,18 @@ namespace Pretty_Salon.Migrations
 
             migrationBuilder.InsertData(
                 table: "Clients",
-                columns: new[] { "ClientId", "Name" },
-                values: new object[] { 1, "David Freeman" });
+                columns: new[] { "ClientId", "Email", "FirstName", "LastName", "PhoneNumber" },
+                values: new object[] { 1, "David@gmail.com", "David", "Ghukasyan", 96234233 });
 
             migrationBuilder.InsertData(
                 table: "Salons",
-                columns: new[] { "SalonId", "Name" },
-                values: new object[] { 1, "Pretty Salon 777" });
+                columns: new[] { "SalonId", "Address", "Name", "PhoneNumber" },
+                values: new object[] { 1, "Vernisaj 17/1", "Pretty Salon 777", 10286543 });
 
             migrationBuilder.InsertData(
                 table: "Hairdressers",
-                columns: new[] { "HairdresserId", "Name", "SalonId" },
-                values: new object[] { 1, "Gil Markes", 1 });
+                columns: new[] { "HairdresserId", "Category", "FirstName", "LastName", "PhoneNumber", "SalonId" },
+                values: new object[] { 1, "Hairdressing", "Armen", "Tadevosyan", 97123456, 1 });
 
             migrationBuilder.InsertData(
                 table: "Registrations",

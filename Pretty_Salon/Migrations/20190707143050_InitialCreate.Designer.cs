@@ -10,8 +10,8 @@ using Pretty_Salon.Data;
 namespace Pretty_Salon.Migrations
 {
     [DbContext(typeof(RegisterContext))]
-    [Migration("20190613141004_SalonMigration")]
-    partial class SalonMigration
+    [Migration("20190707143050_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,13 @@ namespace Pretty_Salon.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<int>("PhoneNumber");
 
                     b.HasKey("ClientId");
 
@@ -37,7 +43,10 @@ namespace Pretty_Salon.Migrations
                         new
                         {
                             ClientId = 1,
-                            Name = "David Freeman"
+                            Email = "David@gmail.com",
+                            FirstName = "David",
+                            LastName = "Ghukasyan",
+                            PhoneNumber = 96234233
                         });
                 });
 
@@ -47,7 +56,13 @@ namespace Pretty_Salon.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Category");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<int>("PhoneNumber");
 
                     b.Property<int?>("SalonId");
 
@@ -61,7 +76,10 @@ namespace Pretty_Salon.Migrations
                         new
                         {
                             HairdresserId = 1,
-                            Name = "Gil Markes",
+                            Category = "Hairdressing",
+                            FirstName = "Armen",
+                            LastName = "Tadevosyan",
+                            PhoneNumber = 97123456,
                             SalonId = 1
                         });
                 });
@@ -110,7 +128,11 @@ namespace Pretty_Salon.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Address");
+
                     b.Property<string>("Name");
+
+                    b.Property<int>("PhoneNumber");
 
                     b.HasKey("SalonId");
 
@@ -120,7 +142,9 @@ namespace Pretty_Salon.Migrations
                         new
                         {
                             SalonId = 1,
-                            Name = "Pretty Salon 777"
+                            Address = "Vernisaj 17/1",
+                            Name = "Pretty Salon 777",
+                            PhoneNumber = 10286543
                         });
                 });
 

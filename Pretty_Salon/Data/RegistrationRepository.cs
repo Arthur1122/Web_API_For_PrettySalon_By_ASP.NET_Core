@@ -51,7 +51,7 @@ namespace Pretty_Salon.Data
 
             IQueryable<Client> query = _context.Clients;
             
-            query = query.Where(c => c.Name == name);
+            query = query.Where(c => c.FirstName == name);
 
             return await query.FirstOrDefaultAsync();
 
@@ -74,7 +74,7 @@ namespace Pretty_Salon.Data
             IQueryable<Hairdresser> query = _context.Hairdressers
                 .Include(c => c.Salon);
 
-            query = query.Where(c => c.Name == name);
+            query = query.Where(c => c.FirstName == name);
 
             return await query.FirstOrDefaultAsync();
         }
