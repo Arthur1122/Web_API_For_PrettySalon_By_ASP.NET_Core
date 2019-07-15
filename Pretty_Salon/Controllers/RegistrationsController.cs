@@ -116,22 +116,22 @@ namespace Pretty_Salon.Controllers
                 }
 
                 Registration registration = _mapper.Map<Registration>(model);
-                if (model.Client != null)
+                if (model.ClientId != 0)
                 {
-                    var client = _clientsRespository.GetById(model.Client.ClientId);
+                    var client = _clientsRespository.GetById(model.ClientId);
                     if (client == null) return NotFound();
 
                     registration.Client = client;
                 }
-                if (model.Hairdresser != null)
+                if (model.HairdresserId != 0)
                 {
-                    var dresser = _hairdresserRepository.GetHairdresserById(model.Hairdresser.HairdresserId);
+                    var dresser = _hairdresserRepository.GetHairdresserById(model.HairdresserId);
                     if (dresser == null) return NotFound();
                     registration.Hairdresser = dresser;
                 }
-                if (model.Salon != null)
+                if (model.SalonId != 0)
                 {
-                    var salon = await _salonRepository.GetSalonByIdAsync(model.Salon.SalonId);
+                    var salon = await _salonRepository.GetSalonByIdAsync(model.SalonId);
                     if (salon == null) return NotFound();
                     registration.Salon = salon;
                 }
@@ -162,22 +162,22 @@ namespace Pretty_Salon.Controllers
 
                 _mapper.Map(model, register);
 
-                if (model.Client != null)
+                if (model.ClientId != 0)
                 {
-                    var client = _clientsRespository.GetById(model.Client.ClientId);
+                    var client = _clientsRespository.GetById(model.ClientId);
                     if (client == null) return NotFound();
 
                     register.Client = client;
                 }
-                if (model.Hairdresser != null)
+                if (model.HairdresserId != 0)
                 {
-                    var dresser = _hairdresserRepository.GetHairdresserById(model.Hairdresser.HairdresserId);
+                    var dresser = _hairdresserRepository.GetHairdresserById(model.HairdresserId);
                     if (dresser == null) return NotFound();
                     register.Hairdresser = dresser;
                 }
-                if (model.Salon != null)
+                if (model.SalonId != 0)
                 {
-                    var salon = await _salonRepository.GetSalonByIdAsync(model.Salon.SalonId);
+                    var salon = await _salonRepository.GetSalonByIdAsync(model.SalonId);
                     if (salon == null) return NotFound();
                     register.Salon = salon;
                 }

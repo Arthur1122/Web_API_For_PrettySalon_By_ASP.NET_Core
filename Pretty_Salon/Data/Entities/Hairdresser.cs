@@ -12,6 +12,7 @@ namespace Pretty_Salon.Data.Entities
         public string  LastName { get; set; }
         public int PhoneNumber { get; set; }
         public string Category { get; set; }
+        public string Email { get; set; }
         public Salon Salon { get; set; }
     }
 }

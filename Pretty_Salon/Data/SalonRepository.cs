@@ -23,7 +23,12 @@ namespace Pretty_Salon.Data
         public Salon Create(SalonModel model)
         {
             _logger.LogInformation("Create new Salon entity");
-            Salon salon = new Salon { Name = model.SalonName };
+            Salon salon = new Salon
+            {
+                Name = model.SalonName,
+                Address = model.SalonAddress,
+                PhoneNumber = model.SalonPhoneNumber
+            };
             _context.Add(salon);
             return salon;
         }

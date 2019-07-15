@@ -10,8 +10,8 @@ namespace Pretty_Salon.Models
         public int RegistrrationId { set; get; }
         public DateTime Day { get; set; } = DateTime.MinValue;
         public string TimeOfDay { get; set; }
-        public ClientModel Client { get; set; }
-        public SalonModel Salon { get; set; }
-        public HairdresserModel Hairdresser { get; set; }
+        public int ClientId { get; set; }
+        public int SalonId { get; set; }
+        public int HairdresserId { get; set; }
     }
 }

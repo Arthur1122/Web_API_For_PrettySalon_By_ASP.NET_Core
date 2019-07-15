@@ -56,6 +56,8 @@ namespace Pretty_Salon.Migrations
 
                     b.Property<string>("Category");
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
@@ -75,6 +77,7 @@ namespace Pretty_Salon.Migrations
                         {
                             HairdresserId = 1,
                             Category = "Hairdressing",
+                            Email = "Suro@gmail.com",
                             FirstName = "Armen",
                             LastName = "Tadevosyan",
                             PhoneNumber = 97123456,

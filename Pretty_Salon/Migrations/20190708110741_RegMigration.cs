@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pretty_Salon.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class RegMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,6 +49,7 @@ namespace Pretty_Salon.Migrations
                     LastName = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<int>(nullable: false),
                     Category = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     SalonId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -109,8 +110,8 @@ namespace Pretty_Salon.Migrations
 
             migrationBuilder.InsertData(
                 table: "Hairdressers",
-                columns: new[] { "HairdresserId", "Category", "FirstName", "LastName", "PhoneNumber", "SalonId" },
-                values: new object[] { 1, "Hairdressing", "Armen", "Tadevosyan", 97123456, 1 });
+                columns: new[] { "HairdresserId", "Category", "Email", "FirstName", "LastName", "PhoneNumber", "SalonId" },
+                values: new object[] { 1, "Hairdressing", "Suro@gmail.com", "Armen", "Tadevosyan", 97123456, 1 });
 
             migrationBuilder.InsertData(
                 table: "Registrations",

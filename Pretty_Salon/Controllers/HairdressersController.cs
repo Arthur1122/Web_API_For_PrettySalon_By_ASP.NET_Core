@@ -54,7 +54,6 @@ namespace Pretty_Salon.Controllers
             }
             catch (Exception ez)
             {
-
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed database");
             }
         }
@@ -66,8 +65,8 @@ namespace Pretty_Salon.Controllers
             {
                 var hairdresser = _mapper.Map<Hairdresser>(model);
 
-                if (model.Salon == null) return BadRequest();
-                var salon = await  _salonRepository.GetSalonByIdAsync(model.Salon.SalonId);
+                if (model.SalonId == 0) return BadRequest();
+                var salon = await  _salonRepository.GetSalonByIdAsync(model.SalonId);
                 if (salon == null) return NotFound();
 
                 hairdresser.Salon = salon;
@@ -99,9 +98,9 @@ namespace Pretty_Salon.Controllers
 
                 _mapper.Map(model, dresser);
 
-                if (model.Salon != null)
+                if (model.SalonId != 0)
                 {
-                    var salon = await _salonRepository.GetSalonByIdAsync(model.Salon.SalonId);
+                    var salon = await _salonRepository.GetSalonByIdAsync(model.SalonId);
                     if(salon != null)
                     {
                         dresser.Salon = salon;

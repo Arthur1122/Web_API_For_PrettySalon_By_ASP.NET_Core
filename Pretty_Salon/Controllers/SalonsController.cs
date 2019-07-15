@@ -104,7 +104,6 @@ namespace Pretty_Salon.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }

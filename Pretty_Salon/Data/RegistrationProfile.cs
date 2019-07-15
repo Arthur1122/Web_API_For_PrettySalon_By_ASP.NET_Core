@@ -14,8 +14,14 @@ namespace Pretty_Salon.Data
         {
             this.CreateMap<Registration, RegistrationModel>()
                 .ForMember(c=>c.RegistrrationId,o=>o.MapFrom(m=>m.RegistrationId))
+                .ForMember(c => c.ClientId, o => o.MapFrom(m => m.Client.ClientId))
+                .ForMember(c => c.SalonId, o => o.MapFrom(m => m.Salon.SalonId))
+                .ForMember(c => c.HairdresserId, o => o.MapFrom(m => m.Hairdresser.HairdresserId))
                 .ReverseMap();
-            this.CreateMap<RegistrationModel, Registration>();
+            this.CreateMap<RegistrationModel, Registration>()
+                .ForPath(c => c.Client.ClientId, o => o.MapFrom(m => m.ClientId))
+                .ForPath(c => c.Salon.SalonId, o => o.MapFrom(m => m.SalonId))
+                .ForPath(c => c.Hairdresser.HairdresserId, o => o.MapFrom(m => m.HairdresserId));
 
             this.CreateMap<Client, ClientModel>()
                 .ForMember(c => c.ClientId, o => o.MapFrom(m => m.ClientId))
@@ -46,15 +52,19 @@ namespace Pretty_Salon.Data
                 .ForMember(c => c.HairdresserFirstName, o => o.MapFrom(m => m.FirstName))
                 .ForMember(c => c.HairdresserLastName, o => o.MapFrom(m => m.LastName))
                 .ForMember(c => c.HairdresserPhoneNumber, o => o.MapFrom(m => m.PhoneNumber))
+                .ForMember(c => c.HairdresserEmail, o => o.MapFrom(m => m.Email))
                 .ForMember(c => c.HairdresserCategory, o => o.MapFrom(m => m.Category))
-                .ReverseMap()
-                .ForMember(c=>c.Salon,opt=>opt.Ignore());
+                .ForMember(c => c.SalonId, o => o.MapFrom(m => m.Salon.SalonId))
+                .ReverseMap();
+                //.ForMember(c=>c.Salon,opt=>opt.Ignore());
 
             this.CreateMap<HairdresserModel, Hairdresser>()
                 .ForMember(c => c.FirstName, o => o.MapFrom(n => n.HairdresserFirstName))
                 .ForMember(c => c.LastName, o => o.MapFrom(m => m.HairdresserLastName))
                 .ForMember(c => c.PhoneNumber, o => o.MapFrom(m => m.HairdresserPhoneNumber))
+                .ForMember(c => c.Email, o => o.MapFrom(m => m.HairdresserEmail))
                 .ForMember(c => c.Category, o => o.MapFrom(m => m.HairdresserCategory))
+                .ForPath(c => c.Salon.SalonId, o => o.MapFrom(m => m.SalonId))
                 .ReverseMap();
 
         }

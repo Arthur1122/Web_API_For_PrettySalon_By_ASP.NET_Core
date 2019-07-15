@@ -12,6 +12,8 @@ namespace Pretty_Salon.Models
         public string HairdresserLastName { get; set; }
         public int HairdresserPhoneNumber { get; set; }
         public string HairdresserCategory { get; set; }
-        public SalonModel Salon { get; set; }
+        public string HairdresserEmail { get; set; }
+        //public SalonModel Salon { get; set; }
+        public int SalonId { get; set; }
     }
 }

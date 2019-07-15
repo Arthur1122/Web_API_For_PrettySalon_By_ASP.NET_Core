@@ -47,6 +47,7 @@ namespace Pretty_Salon.Data
                     FirstName = "Armen",
                     LastName = "Tadevosyan",
                     PhoneNumber = 097123456,
+                    Email = "Suro@gmail.com",
                     Category = "Hairdressing",
                     SalonId = 1
                 });
